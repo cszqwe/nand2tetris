@@ -14,5 +14,9 @@ CHIP Mux {
     OUT out;
 
     PARTS:
-    // Put your code here:
+    Xor(a=sel, b=true, out=selis0);
+    Xor(a=sel, b=false, out=selis1);
+    And(a=a, b=selis0, out=aout);
+    And(a=b, b=selis1, out=bout);
+    Or(a=aout, b=bout, out=out);
 }

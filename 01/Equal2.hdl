@@ -1,0 +1,9 @@
+CHIP Equal2 {
+    IN a[2], b[2];
+    OUT out;
+
+    PARTS:
+    Equal(a=a[0], b=b[0], out=equal0);
+    Equal(a=a[1], b=b[1], out=equal1);
+    And(a=equal0, b=equal1, out=out);
+}
