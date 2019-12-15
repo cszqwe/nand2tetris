@@ -1,0 +1,26 @@
+CHIP Is0 {
+    IN  
+        x[16];
+
+    OUT 
+        out;
+
+    PARTS:
+        Or(a=x[0], b=false, out=h0);
+        Or(a=x[1], b=h0, out=h1);
+        Or(a=x[2], b=h1, out=h2);
+        Or(a=x[3], b=h2, out=h3);
+        Or(a=x[4], b=h3, out=h4);
+        Or(a=x[5], b=h4, out=h5);
+        Or(a=x[6], b=h5, out=h6);
+        Or(a=x[7], b=h6, out=h7);
+        Or(a=x[8], b=h7, out=h8);
+        Or(a=x[9], b=h8, out=h9);
+        Or(a=x[10], b=h9, out=h10);
+        Or(a=x[11], b=h10, out=h11);
+        Or(a=x[12], b=h11, out=h12);
+        Or(a=x[13], b=h12, out=h13);
+        Or(a=x[14], b=h13, out=h14);
+        Or(a=x[15], b=h14, out=h15);
+        Not(in=h15, out=out);
+}
