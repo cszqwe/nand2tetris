@@ -12,3 +12,55 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+
+// main function
+(LOOP)
+    @KBD
+    D=M
+    // if KBD != 0 
+    //  goto Black
+    // goto White
+    @BLACK
+    D;JNE
+    @WHITE
+    0;JMP
+
+(BLACK)
+    @i
+    M=0 // i = 0
+    (BLACKLOOP)
+        @i
+        D=M    
+        @8192
+        D=D-A
+        @LOOP
+        D;JGE // if i >= 8192, come back to the loop
+        @i
+        D=M
+        @SCREEN
+        A=A+D // screen[i] = BLACK
+        M=-1
+        @i
+        M=M+1 // i = i + 1
+        @BLACKLOOP
+        0;JMP //go back to BLACKLOOP
+  
+(WHITE)
+    @i
+    M=0 // i = 0
+    (WHITELOOP)
+        @i
+        D=M    
+        @8192
+        D=D-A
+        @LOOP
+        D;JGE // if i >= 8192, come back to the loop
+        @i
+        D=M
+        @SCREEN
+        A=A+D // screen[i] = WHITE
+        M=0
+        @i
+        M=M+1 // i = i + 1
+        @WHITELOOP
+        0;JMP //go back to WHITELOOP
