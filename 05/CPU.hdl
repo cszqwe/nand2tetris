@@ -39,5 +39,27 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+
+    Mux16(a=instruction, b=aluOut, sel=instruction[15], out=ARegisterIn);
+    // Determine whether ARegister should load
+    Not(in=instruction[15], out=shouldLoadA);
+    Or(a=shouldLoadA, b=instruction[5], out=loadA);
+    And(a=instruction[15], b=instruction[4], out=loadD);
+    //Determine whether write to M
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
+    ARegister(in=ARegisterIn, load=loadA, out=ARegisterOut, out[0..14]=addressM); // ARegister
+    DRegister(in=aluOut, load=loadD, out=DRegisterOut); // DRegister
+    Mux16(a=ARegisterOut, b=inM, sel=instruction[12], out=ALUYin);
+    ALU(x=DRegisterOut, y=ALUYin, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=aluOut, out=outM, zr=aluZr, ng=aluNg);
+    Or(a=aluNg, b=aluZr, out=notAluPos);
+    Not(in=notAluPos, out=aluPos);
+    // Determine whether want to jump or not
+    And(a=instruction[2], b=aluNg, out=jumpNeg);
+    And(a=instruction[1], b=aluZr, out=jumpZr);
+    And(a=instruction[0], b=aluPos, out=jumpPos);
+    Or(a=jumpNeg, b=jumpZr, out=jump1);
+    Or(a=jump1, b=jumpPos, out=jump);
+    And(a=jump, b=instruction[15], out=jumpTo);
+    PC(in=ARegisterOut, load=jumpTo, inc=true, reset=reset, out[0..14]=pc);
 }
