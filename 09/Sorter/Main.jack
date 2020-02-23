@@ -1,0 +1,42 @@
+/** Sorter Program would takes in an array of integer, and output the sorted array from 
+smallest integer to largest integer with a quickSort algorithm. */
+class Main {
+    function void main() {
+        var AdvancedArray arr; 
+        var int i, sum;
+        var String arrInString; // For convenience, I would just require the user to input one line of numbers splited by space.
+        do Output.printString("Please enter the array of intergers you want to sort.");
+        do Output.println(); // New line
+        do Output.printString("The input should be splitted by space, for example 1 2 3.");
+        do Output.println(); // New line
+        let arrInString = Keyboard.readLine("Arr: ");
+        let arr = Main.split(arrInString);
+        let arr = QuickSorter.sort(arr);
+        do Output.printString("The array after sorting is: ");
+        do arr.print();
+        do Output.println(); // New line
+        return;
+   }
+
+   function AdvancedArray split(String s) {
+        var int length;
+        var AdvancedArray arr; 
+        var int i;
+        var int cur;
+        let i = 0;
+        let cur = 0;
+        let arr = AdvancedArray.new(1);
+        let length = s.length();
+        while (i < length) {
+            if (s.charAt(i) = 32) {
+                do arr.append(cur);
+                let cur = 0;
+            }  else {
+                let cur = cur * 10 + s.charAt(i) - 48; //48 is the ascii value of char '0'
+            }
+            let i = i+1;
+        }
+        do arr.append(cur);
+        return arr;
+   }
+}

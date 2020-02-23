@@ -1,0 +1,75 @@
+/** Represents an array which provide append function. The array length can vary according to 
+the real need.*/
+class AdvancedArray {
+    field Array arr;           // the actual array which stores the elements
+    field int curArrSize;      // the size of the array.
+    field int numOfElements;   // the actual number of elements in the arr, which is always <= curArrSize.
+    
+    /* Creates an advanced array. */
+    constructor AdvancedArray new(int cap) {
+        if (cap = 0) {
+            let curArrSize = 1;
+        } else {
+            let curArrSize = cap;
+        }
+        let arr = Array.new(curArrSize);
+        let numOfElements = 0;
+        return this;
+    }
+
+    /** Accessors. */
+    method int get(int index) { 
+        if (index < numOfElements) {
+            return arr[index]; 
+        }
+        // Otherwise, return 0 as a default value for an invalid operation
+        return 0;
+    }
+
+    method int size() {
+        return numOfElements; // curArrSize would always only be used internally.
+    }
+    
+    // Append an value to the array, would auto scale the array if it is not large enough.
+    // If you are interested, you can try to prove that why with this copy paste operation, 
+    // the append would still be O(1) in average.
+    method void append(int value) {
+        // If current array is full, need to create a new array with double size 
+        // and copy current value to the new array.
+        var Array newArr;
+        var int i;
+        if (numOfElements = curArrSize) {
+            let newArr = Array.new(curArrSize * 2);
+            let i = 0;
+            while (i < numOfElements) {
+                let newArr[i] = arr[i];
+                let i = i + 1;
+            }
+            let curArrSize = curArrSize * 2;
+            do arr.dispose(); // need to recycle the older array.
+            let arr = newArr;
+        }
+        let arr[numOfElements] = value;
+        let numOfElements = numOfElements + 1;
+        return;
+    }
+
+    /** Prints this array. */
+    method void print() {
+        var int i;
+        let i = 0;
+        while (i < numOfElements) {
+            do Output.printInt(arr[i]);
+            do Output.printChar(32); // prints a space
+            let i = i+1;
+        }
+        return;
+    }
+
+    /** Disposes this advancedArray. */
+    method void dispose() {
+        do arr.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

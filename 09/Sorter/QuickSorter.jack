@@ -1,0 +1,48 @@
+/** Class which provides a single sort function implemented by qucik sort.*/
+class QuickSorter {
+    // My implementation would not be the best in place one. Instead, I would create some 
+    // helper array in the partition process.
+    // As no random function is provided, I would always pick the first element as the pivot.
+    function AdvancedArray sort(AdvancedArray arr) {
+        var AdvancedArray smallerGroup; // all elements smaller than arr[0]
+        var AdvancedArray largerGroup; // all elements larger than arr[0]
+        var int sameCount; // num of elements equal to arr[0] 
+        var int i;
+        if (arr.size() < 2) {
+            return arr;
+        }
+        let smallerGroup = AdvancedArray.new(arr.size()); // may waste some space but would be more efficient.
+        let largerGroup = AdvancedArray.new(arr.size()); // may waste some space but would be more efficient.
+        let sameCount = 1;
+        let i = 1;
+        while (i < arr.size()) {
+            if (arr.get(i) < arr.get(0)) {
+                do smallerGroup.append(arr.get(i));
+            } 
+            if (arr.get(i) > arr.get(0)) {
+                do largerGroup.append(arr.get(i));
+            } 
+            if (arr.get(i) = arr.get(0)) {
+                let sameCount = sameCount+1;
+            }
+            let i = i+1;
+        }
+        // recursively resolve the smallerGroup.
+        let smallerGroup = QuickSorter.sort(smallerGroup);
+        // recursively resolve the largerGroup.
+        let largerGroup = QuickSorter.sort(largerGroup);
+        // Append arr[0].
+        let i = 0;
+        while (i < sameCount) {
+            do smallerGroup.append(arr.get(0));
+            let i = i+1;
+        }
+        // Append largerGroup.
+        let i = 0;
+        while (i < largerGroup.size()) {
+            do smallerGroup.append(largerGroup.get(i));
+            let i = i+1;
+        }
+        return smallerGroup;
+    }
+}
