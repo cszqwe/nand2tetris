@@ -1,0 +1,19 @@
+function Main.main 2
+push constant 100
+push constant 100
+push constant 8
+call Ball.new 3
+pop local 0
+push constant 1
+push constant 1
+push local 0
+call Bouncing.new 3
+pop local 1
+push local 1
+call Bouncing.controller 1
+pop temp 0
+push local 1
+call Bouncing.dispose 1
+pop temp 0
+push constant 0
+return

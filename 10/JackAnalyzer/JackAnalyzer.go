@@ -80,7 +80,7 @@ func processSingleFile(in *bufio.Reader, outToken *bufio.Writer, out *bufio.Writ
 		if len(lineStr) == 0 {
 			continue
 		}
-		if len(lineStr) >= 2 && lineStr[:2] == "//" {
+		if len(lineStr) >= 2 && (lineStr[:2] == "//" || lineStr[:2] == " *") {
 			continue
 		}
 		lines = append(lines, lineStr)

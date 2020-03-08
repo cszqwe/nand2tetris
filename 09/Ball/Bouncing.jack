@@ -1,0 +1,74 @@
+// Press x to increase the ball size
+// Press z to decrease the ball size
+// Press up arrow to increase the ball speed
+// Press down arrow to decrease the ball speed
+// Press q to quit
+
+class Bouncing {
+  field int vx, vy;  // Horizontal and vertical speed respectively
+  field Ball ball;
+
+  /* Constructor            */
+  constructor Bouncing new(int Avx, int Avy, Ball Aball) {
+    let vx = Avx;
+    let vy = Avy;
+    let ball = Aball;
+    return this;
+  }
+
+  /* This method computes the coordinates, vertical and horizontal speed and animates */
+  method void bounce(int delay) {
+    var int rx, ry, radius;
+
+    /* The three lines below get the current parameters of the Ball object to compute moves  */
+    let rx = ball.getX();
+    let ry = ball.getY();
+    let radius = ball.getRadius();
+
+    if(rx + vx + radius > 511)   {let vx = 0 - vx;}   // Bouncing from the right wall
+    if(ry + vy + radius > 255)   {let vy = 0 - vy;}   // Bouncing from the floor
+    if(rx + vx - radius < 0)     {let vx = 0 - vx;}   // Bouncing from the left wall
+    if(ry + vy - radius < 0)     {let vy = 0 - vy;}   // Bouncing from the ceiling
+    let rx = rx + vx;
+    let ry = ry + vy;
+    do ball.setParam(rx, ry, radius);                 // Sets the current position of the ball
+    do ball.draw();           //Animation: draw the ball
+    do Sys.wait(delay);       //Animation: wait. The change in speed is achieved by incr/decreasing the delay variable.
+    do ball.erase();          //Animation: erase the ball
+    return;
+  }
+
+  /* The controller method collects the input from the user   */
+  method void controller() {
+    var char key;
+    var int delay;
+    var boolean exit;
+    let exit = false;
+    let delay = 30;
+
+    while(~exit) {                // This loop is left only if the user presses
+      while(key = 0) {            // This loop is left if a key is pressed
+       let key = Keyboard.keyPressed();
+       do bounce(delay);
+      }
+      if(key = 81)                {let exit = true;}        //Exit the outer loop if the user presses q
+      if(key = 90)                {do ball.decSize();}      //If z is pressed decrease the size
+      if(key = 88)                {do ball.incSize();}      //If x is pressed increase the size
+      if((key = 131) & delay > 0) {let delay = delay - 1;}  //If up arrow is pressed increase the speed
+      if(key = 133)               {let delay = delay + 1;}  //If down arrow is pressed decrease the speed
+
+      while(~(key = 0)) {                 // This loop is left only if the key is released
+        let key = Keyboard.keyPressed();
+        do bounce(delay);
+      }
+    }
+    return;  //Exit the method after exiting the outer loop
+  }
+
+  /* Disposes of the object         */
+  method void dispose() {
+    do ball.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+}

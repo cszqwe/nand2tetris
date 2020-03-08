@@ -1,0 +1,18 @@
+// The vertical and horizontal speed are by default set to 1
+// You can change those values
+
+class Main {
+
+  /* The driver. Invokes the constructors in Ball and Bouncing  */
+  function void main() {
+    var Ball ball;
+    var Bouncing bouncing;
+
+    let ball = Ball.new(100, 100, 8);           // Default parameters of a Ball object
+    let bouncing = Bouncing.new(1, 1, ball);    // Horizontal and vertical speed set to 1 (It can be changed)
+    do bouncing.controller();                   // Passes over the control to the controller method
+    do bouncing.dispose();                      //Disposes of the object
+    return;
+  }
+
+}

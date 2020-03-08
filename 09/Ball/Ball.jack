@@ -1,0 +1,68 @@
+class Ball {
+
+  field int rx, ry, radius;       // rx = horizontal position, ry = vertical position, radius
+
+  /* Class constructor            */
+  constructor Ball new(int Ax, int Ay, int Aradius) {
+    let rx = Ax;
+    let ry = Ay;
+    let radius = Aradius;
+    return this;
+  }
+
+  /* Draws the ball on the screen  */
+  method void draw() {
+    do Screen.setColor(true);
+    do Screen.drawCircle(rx, ry, radius);
+    return;
+  }
+
+  /* Sets changed parameters by the controller method in Bouncing class */
+  method void setParam(int Arx, int Ary, int Aradius) {
+    let rx = Arx;
+    let ry = Ary;
+    let radius = Aradius;
+    return;
+  }
+
+  /* The three methods below get the parameters to compute ball's speed and position. Invoked by bounce method */
+  /* from Bouncing class                                                                                       */
+  method int getX() {
+    return rx;
+  }
+
+  method int getY() {
+    return ry;
+  }
+
+  method int getRadius() {
+    return radius;
+  }
+
+  /* Erases the ball in an animation cycle  */
+  method void erase() {
+    do Screen.setColor(false);
+    do Screen.drawCircle(rx, ry, radius);
+    return;
+  }
+
+  /* Increases the size of the ball      */
+  method void incSize() {
+    if(radius < 127) {let radius = radius + 1;}
+    return;
+  }
+
+  /* Decreases the size of the ball       */
+  method void decSize() {
+    if (radius > 1) {let radius = radius - 1;}
+    return;
+
+  }
+
+  /* Disposes of the Ball object    */
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+    }
+
+} // class Ball
