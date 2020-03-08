@@ -95,6 +95,9 @@ func (token symbolToken) print() string {
 	if token.symbolType == lesser {
 		return fmt.Sprintf("<symbol> &lt; </symbol>")
 	}
+	if token.symbolType == and {
+		return fmt.Sprintf("<symbol> &amp; </symbol>")
+	}
 	return fmt.Sprintf("<symbol> %s </symbol>", string(token.symbolType))
 }
 
