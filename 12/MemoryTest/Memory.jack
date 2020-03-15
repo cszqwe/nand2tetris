@@ -33,8 +33,8 @@ class Memory {
 
     /** Sets the RAM value at the given address to the given value. */
     function void poke(int address, int value) {
-    	let memory[address] = value;
-		return;
+        let memory[address] = value;
+        return;
     }
 
     /** Finds an available RAM block of the given size and returns

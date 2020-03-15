@@ -35,7 +35,7 @@ class Screen {
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
         let color = b;
-		return;
+        return;
     }
 
     function int getMask(int x) {
@@ -54,14 +54,14 @@ class Screen {
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
         var int address, mask;
-		let address = (y * 32) + (x / 16);
-		let mask = Screen.getMask(x & 15);
-		if (color) {
-			let screen[address] = screen[address] | mask;
-		} else {
-			let screen[address] = screen[address] & ~mask;
-		}
-		return;
+        let address = (y * 32) + (x / 16);
+        let mask = Screen.getMask(x & 15);
+        if (color) {
+            let screen[address] = screen[address] | mask;
+        } else {
+            let screen[address] = screen[address] & ~mask;
+        }
+        return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
@@ -150,20 +150,20 @@ class Screen {
     }
 
     function void drawDiagonal(int x, int y, int dx, int dy) {
-       	var int balance, i, j;
-    	let balance = 0;
-    	let i = 0;
-    	let j = 0;
-    	while ((~(i > dx)) & (~(j < dy))) {
-    		do Screen.drawPixel(x + i, y + j);
-    		if (balance < 0) {
-    			let j = j - 1;
-    			let balance = balance + dx;
-    		} else {
-    			let i = i + 1;
-    			let balance = balance + dy;
-    		}
-    	}
-    	return;    
+           var int balance, i, j;
+        let balance = 0;
+        let i = 0;
+        let j = 0;
+        while ((~(i > dx)) & (~(j < dy))) {
+            do Screen.drawPixel(x + i, y + j);
+            if (balance < 0) {
+                let j = j - 1;
+                let balance = balance + dx;
+            } else {
+                let i = i + 1;
+                let balance = balance + dy;
+            }
+        }
+        return;    
     }
 }

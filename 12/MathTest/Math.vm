@@ -199,6 +199,11 @@ push local 3
 push argument 0
 gt
 not
+push local 3
+push constant 0
+lt
+not
+and
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0

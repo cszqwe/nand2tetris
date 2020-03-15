@@ -27,9 +27,9 @@ class Math {
     /** Returns the absolute value of x. */
     function int abs(int x) {
         if (x < 0) {
-			return -x;
-		}
-		return x;
+            return -x;
+        }
+        return x;
     }
 
     /** Returns the product of x and y. 
@@ -39,19 +39,19 @@ class Math {
      */
     function int multiply(int x, int y) {
         var int i, cur, ans;
-		
-		let i = 0;
-		let ans = 0;
-		let cur = x;
-		
-		while (i < 16) {
-			if (~((y & bitWeight[i]) = 0)) {
-				let ans = ans + cur;
-			}
-			let cur = cur + cur;
-			let i = i + 1;
-		}
-		return ans;
+        
+        let i = 0;
+        let ans = 0;
+        let cur = x;
+        
+        while (i < 16) {
+            if (~((y & bitWeight[i]) = 0)) {
+                let ans = ans + cur;
+            }
+            let cur = cur + cur;
+            let i = i + 1;
+        }
+        return ans;
     }
 
     /** Returns the integer part of x/y.
@@ -96,7 +96,7 @@ class Math {
         while (~(i < 0)){
             let tmp = ans + bitWeight[i];
             let square = tmp * tmp;
-            if (~(square > x)) {
+            if (~(square > x) & ~(square < 0)) {
                 let ans = tmp;
             }
             let i = i - 1;
