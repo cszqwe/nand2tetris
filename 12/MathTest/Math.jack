@@ -14,13 +14,14 @@ class Math {
     /** Initializes the library. */
     function void init() {
         var int i;
-        let bitArray = Array.new(16);
-        let bitArray[0] = 1;
+        let bitWeight = Array.new(16);
+        let bitWeight[0] = 1;
         let i = 1;
         while (i < 16) {
-            let bitArray[i] = bitArray[i-1] * 2;
+            let bitWeight[i] = bitWeight[i-1] * 2;
             let i = i +1;
         }
+        return;
     }
 
     /** Returns the absolute value of x. */
@@ -47,7 +48,7 @@ class Math {
 			if (~((y & bitWeight[i]) = 0)) {
 				let ans = ans + cur;
 			}
-			let cur = cur * 2;
+			let cur = cur + cur;
 			let i = i + 1;
 		}
 		return ans;
@@ -96,7 +97,7 @@ class Math {
             let tmp = ans + bitWeight[i];
             let square = tmp * tmp;
             if (~(square > x)) {
-                let ans = temp;
+                let ans = tmp;
             }
             let i = i - 1;
         }

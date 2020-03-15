@@ -78,13 +78,13 @@ class String {
             let i = 1;
         }
         while((i < len) & String.isDigit(chars[i])){
-            let intVal = (intVal * 10) + chars[i] - 48;
+            let ans = (ans * 10) + chars[i] - 48;
             let i = i + 1;
         }
         if (isNeg) {
-            return -intVal;
+            return -ans;
         } else {
-            return intVal;
+            return ans;
         }
     }
 
@@ -95,12 +95,12 @@ class String {
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
         let len = 0;
-        if(number < 0){
-            let number = -number;
+        if(val < 0){
+            let val = -val;
             do appendChar(45);
         }
 
-        do appendInt(number);
+        do appendInt(val);
         return;
     }
 
@@ -109,7 +109,7 @@ class String {
             do appendChar(number + 48);
         } else {
             do appendInt(number / 10);
-            do appendChar(number - (tmp / 10 * 10) + 48);
+            do appendChar(number - (number / 10 * 10) + 48);
         }
         return;
     }

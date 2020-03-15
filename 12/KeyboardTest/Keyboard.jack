@@ -13,6 +13,7 @@ class Keyboard {
     /** Initializes the keyboard. */
     function void init() {
         let keyboard = 24576;
+        return;
     } 
 
     /**
@@ -46,24 +47,26 @@ class Keyboard {
      */
     function char readChar() {
         var char c;
-        do waitForKeyPressed();
+        do Keyboard.waitForKeyPressed();
         let c = Keyboard.keyPressed();
-        do waitForKeyReleased();
+        do Keyboard.waitForKeyReleased();
         // Echo the character to the screen
         do Output.printChar(c);
         return c;
     }
 
-    func void waitForKeyPressed() {
+    function void waitForKeyPressed() {
         while (Keyboard.keyPressed() = 0) {
             // Do nothing but wait
         }
+        return;
     }
 
-    func void waitForKeyReleased() {
+    function void waitForKeyReleased() {
         while (~(Keyboard.keyPressed() = 0)) {
             // Do nothing but wait
         }
+        return;
     }
 
     /**								

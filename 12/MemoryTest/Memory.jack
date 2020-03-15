@@ -1,0 +1,123 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+    static Array memory, first;
+    static int HEAP_BOTTOM, HEAP_BASE, LENGTH_OFFSET, NEXT_OFFSET, ALLOC_LENGTH_OFFSET;
+
+    /** Initializes the class. */
+    function void init() {
+        let HEAP_BASE = 2048;
+        let HEAP_BOTTOM = 16384;
+        let LENGTH_OFFSET = 0; 
+        let NEXT_OFFSET = 1;
+        let ALLOC_LENGTH_OFFSET = -1;
+        let memory = 0;
+        let first = HEAP_BASE;
+        let first[LENGTH_OFFSET] = HEAP_BOTTOM - HEAP_BASE;
+        let first[NEXT_OFFSET] = null; 
+        return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+        return memory[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+    	let memory[address] = value;
+		return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+        var Array foundBlk,nextBlk,result, curBlk;
+        var int bestSize,curSize;
+
+        let foundBlk = null;//init null
+        let bestSize = HEAP_BOTTOM - HEAP_BASE;
+        let curBlk = first;
+
+        if(curBlk[NEXT_OFFSET] = null){
+            let foundBlk = curBlk; 
+        } else {
+            while(~(curBlk = null)){
+                let curSize = curBlk[LENGTH_OFFSET] - 1; //alloced block only need one header
+                if(~(curSize < size) & (curSize < bestSize)){
+                    let foundBlk = curBlk;
+                    let bestSize = curSize;
+                }
+                let curBlk = curBlk[NEXT_OFFSET];
+            }
+        }
+
+        let result = foundBlk + 1;
+
+        if(~(foundBlk = null)){
+            if(foundBlk[LENGTH_OFFSET] > (size + 3)){
+                let nextBlk = foundBlk + size + 1;
+                let nextBlk[NEXT_OFFSET] = foundBlk[NEXT_OFFSET];
+                let nextBlk[LENGTH_OFFSET] = foundBlk[LENGTH_OFFSET] - size - 1;
+                let result[ALLOC_LENGTH_OFFSET] = size + 1;
+                let first = nextBlk;
+            }else{
+                let nextBlk = foundBlk[NEXT_OFFSET];
+                let result[ALLOC_LENGTH_OFFSET] = foundBlk[LENGTH_OFFSET];
+            }
+            let foundBlk = nextBlk;
+        }
+        return result;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+        var Array preBlk,nextBlk;
+        var int size;
+
+        let size = o[ALLOC_LENGTH_OFFSET];
+        let o = o - 1;//must consider block[-1]
+
+        // Find the preBlk that need to join with the current blk
+        if(first > o){
+            let preBlk = null;
+        } else {
+            let preBlk = first;
+            while(~(preBlk[NEXT_OFFSET] = null) & (preBlk[NEXT_OFFSET] < o)){
+                let preBlk = preBlk[NEXT_OFFSET];
+            }
+        }
+
+        if(preBlk = null) {
+            let o[LENGTH_OFFSET] = size;
+            let o[NEXT_OFFSET] = first;
+            let first = o;
+        }else {
+            if((preBlk + preBlk[LENGTH_OFFSET]) = o) {
+                let preBlk[LENGTH_OFFSET] = preBlk[LENGTH_OFFSET] + size;
+                let o = preBlk;
+            } else {
+                let o[LENGTH_OFFSET] = size;
+                let o[NEXT_OFFSET] = preBlk[NEXT_OFFSET];
+                let preBlk[NEXT_OFFSET] = o;
+            }
+        }
+
+        if((o + o[LENGTH_OFFSET]) = o[NEXT_OFFSET]) {
+            let nextBlk = o[NEXT_OFFSET];
+            let o[LENGTH_OFFSET] = o[LENGTH_OFFSET] + nextBlk[LENGTH_OFFSET];
+            let o[NEXT_OFFSET] = nextBlk[NEXT_OFFSET];
+        }
+
+        return;
+    }    
+}
