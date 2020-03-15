@@ -28,8 +28,14 @@ push static 0
 add
 pop pointer 1
 push that 0
-push constant 2
-call Math.multiply 2
+push local 0
+push constant 1
+sub
+push static 0
+add
+pop pointer 1
+push that 0
+add
 pop temp 0
 pop pointer 1
 push temp 0

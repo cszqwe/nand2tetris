@@ -18,7 +18,7 @@ class Math {
         let bitWeight[0] = 1;
         let i = 1;
         while (i < 16) {
-            let bitWeight[i] = bitWeight[i-1] * 2;
+            let bitWeight[i] = bitWeight[i-1] + bitWeight[i-1];
             let i = i +1;
         }
         return;
